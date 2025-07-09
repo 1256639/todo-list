@@ -3,6 +3,10 @@ const UI = (() => {
     const currentProjectName = document.querySelector(".current-project-name");
     const todosList = document.querySelector(".todos-list");
     
+    const closeModal = (modal) => {
+        document.body.removeChild(modal);
+    };
+    
     const initializeProjects = () => {
         return [];
     };
@@ -39,6 +43,7 @@ const UI = (() => {
             deleteBtn.classList.add("delete-project-btn");
             deleteBtn.textContent = "X";
             deleteBtn.setAttribute("title", "Delete Project");
+            deleteBtn.setAttribute("aria-label", "Delete Project " + project.name);
             projectContainer.appendChild(deleteBtn);
         
             projectElement.appendChild(projectContainer);
@@ -140,6 +145,7 @@ const UI = (() => {
             checkbox.type = "checkbox";
             checkbox.classList.add("todo-checkbox");
             checkbox.checked = todo.completed;
+            checkbox.setAttribute("aria-label", "Mark task as " + (todo.completed ? "incomplete" : "complete"));
     
             if (todo.completed) {
                 checkbox.disabled = true;
@@ -177,7 +183,12 @@ const UI = (() => {
                     const [year, month, day] = todo.dueDate.split("-");
                     displayDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
                 } else {
-                    displayDate = new Date(todo.dueDate);
+                    try {
+                        displayDate = new Date(todo.dueDate);
+                    } catch (e) {
+                        console.error("Error parsing date: " + e);
+                        displayDate = new Date();
+                    }
                 }
             
                 const formattedDate = displayDate.toLocaleDateString("en-US", {
@@ -206,6 +217,7 @@ const UI = (() => {
                 deleteBtn.classList.add("delete-todo-btn");
                 deleteBtn.textContent = "X";
                 deleteBtn.setAttribute("title", "Delete Todo");
+                deleteBtn.setAttribute("aria-label", "Delete task: " + todo.title);
                 todoHeader.appendChild(deleteBtn);
             }
     
@@ -227,12 +239,16 @@ const UI = (() => {
         
         const modal = document.createElement("div");
         modal.classList.add("modal");
+        modal.setAttribute("role", "dialog");
+        modal.setAttribute("aria-modal", "true");
+        modal.setAttribute("aria-labelledby", "project-form-heading");
                
         const modalContent = document.createElement("div");
         modalContent.classList.add("modal-content");
             
         const heading = document.createElement("h3");
         heading.textContent = "New project";
+        heading.id = "project-form-heading";
         
         const form = document.createElement("form");
         form.id = "project-form";
@@ -294,12 +310,16 @@ const UI = (() => {
         
         const modal = document.createElement("div");
         modal.classList.add("modal");
+        modal.setAttribute("role", "dialog");
+        modal.setAttribute("aria-modal", "true");
+        modal.setAttribute("aria-labelledby", "todo-form-heading");
                
         const modalContent = document.createElement("div");
         modalContent.classList.add("modal-content", "todo-form-content");
             
         const heading = document.createElement("h3");
         heading.textContent = "New Task";
+        heading.id = "todo-form-heading";
         
         const form = document.createElement("form");
         form.id = "todo-form";
@@ -421,12 +441,16 @@ const UI = (() => {
     const createTodoEditForm = (todo) => {
         const modal = document.createElement("div");
         modal.classList.add("modal");
+        modal.setAttribute("role", "dialog");
+        modal.setAttribute("aria-modal", "true");
+        modal.setAttribute("aria-labelledby", "todo-edit-form-heading");
 
         const modalContent = document.createElement("div");
         modalContent.classList.add("modal-content", "todo-form-content");
 
         const heading = document.createElement("h3");
         heading.textContent = "Edit Todo";
+        heading.id = "todo-edit-form-heading";
 
         const form = document.createElement("form");
         form.id = "todo-edit-form";
@@ -488,7 +512,7 @@ const UI = (() => {
                     const day = String(date.getDate()).padStart(2, "0");
                     dateInput.value = year + "-" + month + "-" + day;
                 } catch (e) {
-                    console.error("Could not parse date", e);
+                    console.error("Could not parse date: " + e);
                     dateInput.value = "";
                 }
             }
@@ -568,6 +592,8 @@ const UI = (() => {
         
         const modal = document.createElement("div");
         modal.classList.add("modal");
+        modal.setAttribute("role", "dialog");
+        modal.setAttribute("aria-modal", "true");
         
         const modalContent = document.createElement("div");
         modalContent.classList.add("modal-content");
@@ -659,7 +685,8 @@ const UI = (() => {
         createTodoEditForm,
         createConfirmationDialog,
         handleProjectClick,
-        handleTodoAction
+        handleTodoAction,
+        closeModal
     };
 })();
 

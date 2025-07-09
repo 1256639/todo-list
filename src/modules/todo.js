@@ -1,8 +1,8 @@
 const createTodo = ({
     title,
-    description = '',
+    description = "",
     dueDate = null,
-    priority = 'medium',
+    priority = "medium",
     projectId,
     id = Date.now().toString(),
     completed = false

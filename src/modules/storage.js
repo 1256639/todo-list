@@ -1,5 +1,5 @@
 const Storage = (() => {
-    const STORAGE_KEY = "lsk_3x9vT7qZ2mNpC1LgYh4FWEbRoAuK8WDJ"
+    const STORAGE_KEY = "lsk_3x9vT7qZ2mNpC1LgYh4FWEbRoAuK8WDJ";
 
     const saveProjects = (projects) => {
         try {
