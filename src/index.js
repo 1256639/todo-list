@@ -2,6 +2,7 @@ import './styles.css';
 import createProject from './modules/project';
 import createTodo from './modules/todo';
 import UI from './modules/ui';
+import Storage from './modules/storage';
 
 const App = (() => {
     let projects = [];
@@ -12,10 +13,25 @@ const App = (() => {
     const projectListContainer = document.querySelector('.project-list');
     const todosListContainer = document.querySelector('.todos-list');
     
+    const saveToStorage = () => {
+        if (Storage.isAvailable()) {
+            Storage.saveProjects(projects);
+        }
+    };
+    
     const init = () => {
-        projects = UI.initializeProjects();
+        if (Storage.isAvailable()) {
+            projects = Storage.loadProjects();
+        } else {
+            projects = [];
+            console.warn('localStorage is not available. Your data will not be saved.');
+        }
         
-        activeProjectId = '';
+        if (projects.length > 0) {
+            activeProjectId = projects[0].id;
+        } else {
+            activeProjectId = '';
+        }
         
         UI.renderProjects(projects, activeProjectId);
         renderActiveTodos();
@@ -82,6 +98,8 @@ const App = (() => {
                 UI.renderProjects(projects, activeProjectId);
                 renderActiveTodos();
                 
+                saveToStorage();
+                
                 document.body.removeChild(modal);
             }
         });
@@ -112,6 +130,8 @@ const App = (() => {
                 activeProject.todos.push(newTodo);
                 
                 renderActiveTodos();
+                
+                saveToStorage();
                 
                 document.body.removeChild(modal);
             }
@@ -150,6 +170,8 @@ const App = (() => {
         UI.renderProjects(projects, activeProjectId);
         renderActiveTodos();
         
+        saveToStorage();
+        
         document.body.removeChild(modal);
     });
     
@@ -178,6 +200,8 @@ const App = (() => {
             todo.completedDate = new Date().toISOString();
         
             renderActiveTodos();
+            
+            saveToStorage();
         
             document.body.removeChild(modal);
         });
@@ -191,22 +215,24 @@ const App = (() => {
     const handleTodoEdit = (todoId) => {
         const activeProject = getActiveProject();
         const todo = activeProject.todos.find(t => t.id === todoId);
-
+    
         const { modal, form, cancelButton, titleInput, descTextarea, dateInput, prioritySelect } = UI.createTodoEditForm(todo);
-
+    
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-
+    
             todo.description = descTextarea.value.trim();
             todo.priority = prioritySelect.value;
         
             todo.dueDate = dateInput.value || null;
         
             renderActiveTodos();
+            
+            saveToStorage();
         
             document.body.removeChild(modal);
         });
-
+    
         cancelButton.addEventListener('click', () => {
             document.body.removeChild(modal);
         });
@@ -224,6 +250,8 @@ const App = (() => {
             activeProject.todos = activeProject.todos.filter(t => t.id !== todoId);
             
             renderActiveTodos();
+            
+            saveToStorage();
             
             document.body.removeChild(modal);
         });
