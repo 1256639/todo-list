@@ -1,7 +1,7 @@
 const UI = (() => {
-    const projectList = document.querySelector('.project-list');
-    const currentProjectName = document.querySelector('.current-project-name');
-    const todosList = document.querySelector('.todos-list');
+    const projectList = document.querySelector(".project-list");
+    const currentProjectName = document.querySelector(".current-project-name");
+    const todosList = document.querySelector(".todos-list");
     
     const initializeProjects = () => {
         return [];
@@ -9,36 +9,36 @@ const UI = (() => {
  
     const renderProjects = (projects, activeProjectId) => {
         
-        projectList.textContent = '';
+        projectList.textContent = "";
     
         if (projects.length === 0) {          
-            currentProjectName.textContent = 'Create a project!';
+            currentProjectName.textContent = "Create a project!";
             return;
         }
     
         projects.forEach(project => {
-            const projectElement = document.createElement('div');
-            projectElement.classList.add('project');
+            const projectElement = document.createElement("div");
+            projectElement.classList.add("project");
             projectElement.dataset.projectId = project.id;
         
             if (project.id === activeProjectId) {
-                projectElement.classList.add('active');
+                projectElement.classList.add("active");
                 currentProjectName.textContent = project.name;
             }
                  
-            const projectContainer = document.createElement('div');
-            projectContainer.classList.add('project-container');
+            const projectContainer = document.createElement("div");
+            projectContainer.classList.add("project-container");
               
-            const projectName = document.createElement('span');
-            projectName.classList.add('project-name');
+            const projectName = document.createElement("span");
+            projectName.classList.add("project-name");
             projectName.textContent = project.name;
                     
             projectContainer.appendChild(projectName);
         
-            const deleteBtn = document.createElement('button');
-            deleteBtn.classList.add('delete-project-btn');
-            deleteBtn.textContent = 'X';
-            deleteBtn.setAttribute('title', 'Delete Project');
+            const deleteBtn = document.createElement("button");
+            deleteBtn.classList.add("delete-project-btn");
+            deleteBtn.textContent = "X";
+            deleteBtn.setAttribute("title", "Delete Project");
             projectContainer.appendChild(deleteBtn);
         
             projectElement.appendChild(projectContainer);
@@ -47,20 +47,20 @@ const UI = (() => {
     };
     
     const renderTodos = (todos) => {
-        todosList.textContent = '';
+        todosList.textContent = "";
          
         if (todos === null) {
-            const noProjectMessage = document.createElement('p');
-            noProjectMessage.classList.add('empty-todos-message');
-            noProjectMessage.textContent = 'Empty! You have no project started';
+            const noProjectMessage = document.createElement("p");
+            noProjectMessage.classList.add("empty-todos-message");
+            noProjectMessage.textContent = "Empty! You have no project started";
             todosList.appendChild(noProjectMessage);
             return;
         }
 
         if (todos.length === 0) {
-            const emptyMessage = document.createElement('p');
-            emptyMessage.classList.add('empty-todos-message');
-            emptyMessage.textContent = 'No todos for this project. Add one!';
+            const emptyMessage = document.createElement("p");
+            emptyMessage.classList.add("empty-todos-message");
+            emptyMessage.textContent = "No todos for this project. Add one!";
             todosList.appendChild(emptyMessage);
             return;
         }
@@ -68,13 +68,13 @@ const UI = (() => {
         const activeTodos = todos.filter(todo => !todo.completed);
         const completedTodos = todos.filter(todo => todo.completed);
     
-        const activeTodosSection = document.createElement('div');
-        activeTodosSection.classList.add('todos-section', 'active-todos');
+        const activeTodosSection = document.createElement("div");
+        activeTodosSection.classList.add("todos-section", "active-todos");
     
         if (activeTodos.length > 0) {
-            const activeHeader = document.createElement('h2');
-            activeHeader.classList.add('section-header');
-            activeHeader.textContent = 'Active Tasks';
+            const activeHeader = document.createElement("h2");
+            activeHeader.classList.add("section-header");
+            activeHeader.textContent = "Active Tasks";
             activeTodosSection.appendChild(activeHeader);
         
             const sortedActiveTodos = [...activeTodos].sort((a, b) => {
@@ -95,19 +95,19 @@ const UI = (() => {
         
             renderTodoElements(sortedActiveTodos, activeTodosSection);
         } else {
-            const noActiveTodos = document.createElement('p');
-            noActiveTodos.classList.add('empty-section-message');
-            noActiveTodos.textContent = 'No active tasks. Great job!';
+            const noActiveTodos = document.createElement("p");
+            noActiveTodos.classList.add("empty-section-message");
+            noActiveTodos.textContent = "No active tasks. Great job!";
             activeTodosSection.appendChild(noActiveTodos);
         }
     
-        const completedTodosSection = document.createElement('div');
-        completedTodosSection.classList.add('todos-section', 'completed-todos');
+        const completedTodosSection = document.createElement("div");
+        completedTodosSection.classList.add("todos-section", "completed-todos");
     
         if (completedTodos.length > 0) {
-            const completedHeader = document.createElement('h2');
-            completedHeader.classList.add('section-header');
-            completedHeader.textContent = 'Completed Tasks';
+            const completedHeader = document.createElement("h2");
+            completedHeader.classList.add("section-header");
+            completedHeader.textContent = "Completed Tasks";
             completedTodosSection.appendChild(completedHeader);
         
             const sortedCompletedTodos = [...completedTodos].sort((a, b) => {
@@ -123,76 +123,76 @@ const UI = (() => {
 
     const renderTodoElements = (todosList, container) => {
         todosList.forEach(todo => {
-            const todoElement = document.createElement('div');
-            todoElement.classList.add('todo');
+            const todoElement = document.createElement("div");
+            todoElement.classList.add("todo");
             todoElement.dataset.todoId = todo.id;
     
             if (todo.completed) {
-                todoElement.classList.add('completed');
+                todoElement.classList.add("completed");
             } else {
-                todoElement.classList.add('editable');
+                todoElement.classList.add("editable");
             }
     
-            const todoHeader = document.createElement('div');
-            todoHeader.classList.add('todo-header');
+            const todoHeader = document.createElement("div");
+            todoHeader.classList.add("todo-header");
     
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.classList.add('todo-checkbox');
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.classList.add("todo-checkbox");
             checkbox.checked = todo.completed;
     
             if (todo.completed) {
                 checkbox.disabled = true;
             }
     
-            const title = document.createElement('h3');
-            title.classList.add('todo-title');
+            const title = document.createElement("h3");
+            title.classList.add("todo-title");
             title.textContent = todo.title;
     
-            const priorityBadge = document.createElement('span');
-            priorityBadge.classList.add('priority-badge', `priority-${todo.priority}`);
+            const priorityBadge = document.createElement("span");
+            priorityBadge.classList.add("priority-badge", "priority-" + todo.priority);
             priorityBadge.textContent = todo.priority.charAt(0).toUpperCase() + todo.priority.slice(1);
     
             let dateElement = null;
     
             if (todo.completed && todo.completedDate) {
-                dateElement = document.createElement('span');
-                dateElement.classList.add('completed-date');
+                dateElement = document.createElement("span");
+                dateElement.classList.add("completed-date");
         
                 const date = new Date(todo.completedDate);
-                const formattedDate = date.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
+                const formattedDate = date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric"
                 });
         
-                dateElement.textContent = `Completed: ${formattedDate}`;
+                dateElement.textContent = "Completed: " + formattedDate;
             } else if (todo.dueDate) {
-                dateElement = document.createElement('span');
-                dateElement.classList.add('due-date');
+                dateElement = document.createElement("span");
+                dateElement.classList.add("due-date");
         
                 let displayDate;
             
-                if (typeof todo.dueDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(todo.dueDate)) {
-                    const [year, month, day] = todo.dueDate.split('-');
+                if (typeof todo.dueDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(todo.dueDate)) {
+                    const [year, month, day] = todo.dueDate.split("-");
                     displayDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
                 } else {
                     displayDate = new Date(todo.dueDate);
                 }
             
-                const formattedDate = displayDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
+                const formattedDate = displayDate.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric"
                 });
         
-                dateElement.textContent = `Due: ${formattedDate}`;
+                dateElement.textContent = "Due: " + formattedDate;
         
                 const today = new Date();
                 today.setHours(0, 0, 0, 0); 
             
                 if (displayDate < today && !todo.completed) {
-                    dateElement.classList.add('overdue');
+                    dateElement.classList.add("overdue");
                 }
             }
     
@@ -202,16 +202,16 @@ const UI = (() => {
             if (dateElement) todoHeader.appendChild(dateElement);
     
             if (!todo.completed) {
-                const deleteBtn = document.createElement('button');
-                deleteBtn.classList.add('delete-todo-btn');
-                deleteBtn.textContent = 'X';
-                deleteBtn.setAttribute('title', 'Delete Todo');
+                const deleteBtn = document.createElement("button");
+                deleteBtn.classList.add("delete-todo-btn");
+                deleteBtn.textContent = "X";
+                deleteBtn.setAttribute("title", "Delete Todo");
                 todoHeader.appendChild(deleteBtn);
             }
     
             if (todo.description.trim()) {
-                const description = document.createElement('p');
-                description.classList.add('todo-description');
+                const description = document.createElement("p");
+                description.classList.add("todo-description");
                 description.textContent = todo.description;
                 todoElement.appendChild(todoHeader);
                 todoElement.appendChild(description);
@@ -225,42 +225,42 @@ const UI = (() => {
     
     const createProjectForm = () => {
         
-        const modal = document.createElement('div');
-        modal.classList.add('modal');
-              
-        const modalContent = document.createElement('div');
-        modalContent.classList.add('modal-content');
+        const modal = document.createElement("div");
+        modal.classList.add("modal");
+               
+        const modalContent = document.createElement("div");
+        modalContent.classList.add("modal-content");
             
-        const heading = document.createElement('h3');
-        heading.textContent = 'New project';
+        const heading = document.createElement("h3");
+        heading.textContent = "New project";
         
-        const form = document.createElement('form');
-        form.id = 'project-form';
+        const form = document.createElement("form");
+        form.id = "project-form";
         
-        const formGroup = document.createElement('div');
-        formGroup.classList.add('form-group');
+        const formGroup = document.createElement("div");
+        formGroup.classList.add("form-group");
         
-        const label = document.createElement('label');
-        label.setAttribute('for', 'project-name');
-        label.textContent = 'Project name:';
+        const label = document.createElement("label");
+        label.setAttribute("for", "project-name");
+        label.textContent = "Project name:";
         
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.id = 'project-name';
+        const input = document.createElement("input");
+        input.type = "text";
+        input.id = "project-name";
         input.required = true;
         
-        const formButtons = document.createElement('div');
-        formButtons.classList.add('form-buttons');
+        const formButtons = document.createElement("div");
+        formButtons.classList.add("form-buttons");
         
-        const submitButton = document.createElement('button');
-        submitButton.type = 'submit';
-        submitButton.classList.add('btn');
-        submitButton.textContent = 'Create';
+        const submitButton = document.createElement("button");
+        submitButton.type = "submit";
+        submitButton.classList.add("btn");
+        submitButton.textContent = "Create";
         
-        const cancelButton = document.createElement('button');
-        cancelButton.type = 'button';
-        cancelButton.classList.add('btn', 'cancel-btn');
-        cancelButton.textContent = 'Cancel';
+        const cancelButton = document.createElement("button");
+        cancelButton.type = "button";
+        cancelButton.classList.add("btn", "cancel-btn");
+        cancelButton.textContent = "Cancel";
         
         formGroup.appendChild(label);
         formGroup.appendChild(input);
@@ -292,78 +292,78 @@ const UI = (() => {
     
     const createTodoForm = (projectId) => {
         
-        const modal = document.createElement('div');
-        modal.classList.add('modal');
+        const modal = document.createElement("div");
+        modal.classList.add("modal");
                
-        const modalContent = document.createElement('div');
-        modalContent.classList.add('modal-content', 'todo-form-content');
+        const modalContent = document.createElement("div");
+        modalContent.classList.add("modal-content", "todo-form-content");
             
-        const heading = document.createElement('h3');
-        heading.textContent = 'New Todo';
+        const heading = document.createElement("h3");
+        heading.textContent = "New Todo";
         
-        const form = document.createElement('form');
-        form.id = 'todo-form';
+        const form = document.createElement("form");
+        form.id = "todo-form";
         
-        const titleGroup = document.createElement('div');
-        titleGroup.classList.add('form-group');
+        const titleGroup = document.createElement("div");
+        titleGroup.classList.add("form-group");
         
-        const titleLabel = document.createElement('label');
-        titleLabel.setAttribute('for', 'todo-title');
-        titleLabel.textContent = 'Title:';
+        const titleLabel = document.createElement("label");
+        titleLabel.setAttribute("for", "todo-title");
+        titleLabel.textContent = "Title:";
         
-        const titleInput = document.createElement('input');
-        titleInput.type = 'text';
-        titleInput.id = 'todo-title';
+        const titleInput = document.createElement("input");
+        titleInput.type = "text";
+        titleInput.id = "todo-title";
         titleInput.required = true;
         
         titleGroup.appendChild(titleLabel);
         titleGroup.appendChild(titleInput);
         
-        const descGroup = document.createElement('div');
-        descGroup.classList.add('form-group');
+        const descGroup = document.createElement("div");
+        descGroup.classList.add("form-group");
         
-        const descLabel = document.createElement('label');
-        descLabel.setAttribute('for', 'todo-description');
-        descLabel.textContent = 'Description:';
+        const descLabel = document.createElement("label");
+        descLabel.setAttribute("for", "todo-description");
+        descLabel.textContent = "Description:";
         
-        const descTextarea = document.createElement('textarea');
-        descTextarea.id = 'todo-description';
+        const descTextarea = document.createElement("textarea");
+        descTextarea.id = "todo-description";
         descTextarea.rows = 3;
         
         descGroup.appendChild(descLabel);
         descGroup.appendChild(descTextarea);
         
-        const dateGroup = document.createElement('div');
-        dateGroup.classList.add('form-group');
+        const dateGroup = document.createElement("div");
+        dateGroup.classList.add("form-group");
         
-        const dateLabel = document.createElement('label');
-        dateLabel.setAttribute('for', 'todo-due-date');
-        dateLabel.textContent = 'Due Date:';
+        const dateLabel = document.createElement("label");
+        dateLabel.setAttribute("for", "todo-due-date");
+        dateLabel.textContent = "Due Date:";
         
-        const dateInput = document.createElement('input');
-        dateInput.type = 'date';
-        dateInput.id = 'todo-due-date';
+        const dateInput = document.createElement("input");
+        dateInput.type = "date";
+        dateInput.id = "todo-due-date";
         
         dateGroup.appendChild(dateLabel);
         dateGroup.appendChild(dateInput);
         
-        const priorityGroup = document.createElement('div');
-        priorityGroup.classList.add('form-group');
+        const priorityGroup = document.createElement("div");
+        priorityGroup.classList.add("form-group");
         
-        const priorityLabel = document.createElement('label');
-        priorityLabel.setAttribute('for', 'todo-priority');
-        priorityLabel.textContent = 'Priority:';
+        const priorityLabel = document.createElement("label");
+        priorityLabel.setAttribute("for", "todo-priority");
+        priorityLabel.textContent = "Priority:";
         
-        const prioritySelect = document.createElement('select');
-        prioritySelect.id = 'todo-priority';
+        const prioritySelect = document.createElement("select");
+        prioritySelect.id = "todo-priority";
         
-        const priorities = ['low', 'medium', 'high'];
+        const priorities = ["low", "medium", "high"];
         priorities.forEach(priority => {
-            const option = document.createElement('option');
+            const option = document.createElement("option");
             option.value = priority;
             option.textContent = priority.charAt(0).toUpperCase() + priority.slice(1);
             
-            if (priority === 'medium') {
+            if (priority === "medium") {
                 option.selected = true;
             }
             
@@ -373,18 +373,18 @@ const UI = (() => {
         priorityGroup.appendChild(priorityLabel);
         priorityGroup.appendChild(prioritySelect);
         
-        const formButtons = document.createElement('div');
-        formButtons.classList.add('form-buttons');
+        const formButtons = document.createElement("div");
+        formButtons.classList.add("form-buttons");
         
-        const submitButton = document.createElement('button');
-        submitButton.type = 'submit';
-        submitButton.classList.add('btn');
-        submitButton.textContent = 'Create';
+        const submitButton = document.createElement("button");
+        submitButton.type = "submit";
+        submitButton.classList.add("btn");
+        submitButton.textContent = "Create";
         
-        const cancelButton = document.createElement('button');
-        cancelButton.type = 'button';
-        cancelButton.classList.add('btn', 'cancel-btn');
-        cancelButton.textContent = 'Cancel';
+        const cancelButton = document.createElement("button");
+        cancelButton.type = "button";
+        cancelButton.classList.add("btn", "cancel-btn");
+        cancelButton.textContent = "Cancel";
         
         form.appendChild(titleGroup);
         form.appendChild(descGroup);
@@ -419,63 +419,63 @@ const UI = (() => {
     };
 
     const createTodoEditForm = (todo) => {
-        const modal = document.createElement('div');
-        modal.classList.add('modal');
+        const modal = document.createElement("div");
+        modal.classList.add("modal");
 
-        const modalContent = document.createElement('div');
-        modalContent.classList.add('modal-content', 'todo-form-content');
+        const modalContent = document.createElement("div");
+        modalContent.classList.add("modal-content", "todo-form-content");
 
-        const heading = document.createElement('h3');
-        heading.textContent = 'Edit Todo';
+        const heading = document.createElement("h3");
+        heading.textContent = "Edit Todo";
 
-        const form = document.createElement('form');
-        form.id = 'todo-edit-form';
+        const form = document.createElement("form");
+        form.id = "todo-edit-form";
 
-        const titleGroup = document.createElement('div');
-        titleGroup.classList.add('form-group');
+        const titleGroup = document.createElement("div");
+        titleGroup.classList.add("form-group");
 
-        const titleLabel = document.createElement('label');
-        titleLabel.setAttribute('for', 'todo-title-display');
-        titleLabel.textContent = 'Title:';
+        const titleLabel = document.createElement("label");
+        titleLabel.setAttribute("for", "todo-title-display");
+        titleLabel.textContent = "Title:";
 
-        const titleDisplay = document.createElement('div');
-        titleDisplay.classList.add('todo-title-display');
+        const titleDisplay = document.createElement("div");
+        titleDisplay.classList.add("todo-title-display");
         titleDisplay.textContent = todo.title;
 
-        const titleInput = document.createElement('input');
-        titleInput.type = 'hidden';
-        titleInput.id = 'todo-title-edit';
+        const titleInput = document.createElement("input");
+        titleInput.type = "hidden";
+        titleInput.id = "todo-title-edit";
         titleInput.value = todo.title;
 
         titleGroup.appendChild(titleLabel);
         titleGroup.appendChild(titleDisplay);
         titleGroup.appendChild(titleInput);
 
-        const descGroup = document.createElement('div');
-        descGroup.classList.add('form-group');
+        const descGroup = document.createElement("div");
+        descGroup.classList.add("form-group");
 
-        const descLabel = document.createElement('label');
-        descLabel.setAttribute('for', 'todo-description-edit');
-        descLabel.textContent = 'Description:';
+        const descLabel = document.createElement("label");
+        descLabel.setAttribute("for", "todo-description-edit");
+        descLabel.textContent = "Description:";
 
-        const descTextarea = document.createElement('textarea');
-        descTextarea.id = 'todo-description-edit';
+        const descTextarea = document.createElement("textarea");
+        descTextarea.id = "todo-description-edit";
         descTextarea.rows = 3;
-        descTextarea.value = todo.description || '';
+        descTextarea.value = todo.description || "";
 
         descGroup.appendChild(descLabel);
         descGroup.appendChild(descTextarea);
 
-        const dateGroup = document.createElement('div');
-        dateGroup.classList.add('form-group');
+        const dateGroup = document.createElement("div");
+        dateGroup.classList.add("form-group");
 
-        const dateLabel = document.createElement('label');
-        dateLabel.setAttribute('for', 'todo-due-date-edit');
-        dateLabel.textContent = 'Due Date:';
+        const dateLabel = document.createElement("label");
+        dateLabel.setAttribute("for", "todo-due-date-edit");
+        dateLabel.textContent = "Due Date:";
 
-        const dateInput = document.createElement('input');
-        dateInput.type = 'date';
-        dateInput.id = 'todo-due-date-edit';
+        const dateInput = document.createElement("input");
+        dateInput.type = "date";
+        dateInput.id = "todo-due-date-edit";
 
         if (todo.dueDate) {
             if (/^\d{4}-\d{2}-\d{2}$/.test(todo.dueDate)) {
@@ -484,9 +484,9 @@ const UI = (() => {
                 try {
                     const date = new Date(todo.dueDate);
                     const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    dateInput.value = `${year}-${month}-${day}`;
+                    const month = String(date.getMonth() + 1).padStart(2, "0");
+                    const day = String(date.getDate()).padStart(2, "0");
+                    dateInput.value = year + "-" + month + "-" + day;
                 } catch (e) {
                     console.error("Could not parse date", e);
                     dateInput.value = "";
@@ -497,19 +497,19 @@ const UI = (() => {
         dateGroup.appendChild(dateLabel);
         dateGroup.appendChild(dateInput);
 
-        const priorityGroup = document.createElement('div');
-        priorityGroup.classList.add('form-group');
+        const priorityGroup = document.createElement("div");
+        priorityGroup.classList.add("form-group");
 
-        const priorityLabel = document.createElement('label');
-        priorityLabel.setAttribute('for', 'todo-priority-edit');
-        priorityLabel.textContent = 'Priority:';
+        const priorityLabel = document.createElement("label");
+        priorityLabel.setAttribute("for", "todo-priority-edit");
+        priorityLabel.textContent = "Priority:";
 
-        const prioritySelect = document.createElement('select');
-        prioritySelect.id = 'todo-priority-edit';
+        const prioritySelect = document.createElement("select");
+        prioritySelect.id = "todo-priority-edit";
 
-        const priorities = ['low', 'medium', 'high'];
+        const priorities = ["low", "medium", "high"];
         priorities.forEach(priority => {
-            const option = document.createElement('option');
+            const option = document.createElement("option");
             option.value = priority;
             option.textContent = priority.charAt(0).toUpperCase() + priority.slice(1);
     
@@ -523,18 +523,18 @@ const UI = (() => {
         priorityGroup.appendChild(priorityLabel);
         priorityGroup.appendChild(prioritySelect);
 
-        const formButtons = document.createElement('div');
-        formButtons.classList.add('form-buttons');
+        const formButtons = document.createElement("div");
+        formButtons.classList.add("form-buttons");
 
-        const saveButton = document.createElement('button');
-        saveButton.type = 'submit';
-        saveButton.classList.add('btn');
-        saveButton.textContent = 'Save Changes';
+        const saveButton = document.createElement("button");
+        saveButton.type = "submit";
+        saveButton.classList.add("btn");
+        saveButton.textContent = "Save Changes";
 
-        const cancelButton = document.createElement('button');
-        cancelButton.type = 'button';
-        cancelButton.classList.add('btn', 'cancel-btn');
-        cancelButton.textContent = 'Cancel';
+        const cancelButton = document.createElement("button");
+        cancelButton.type = "button";
+        cancelButton.classList.add("btn", "cancel-btn");
+        cancelButton.textContent = "Cancel";
 
         form.appendChild(titleGroup);
         form.appendChild(descGroup);
@@ -560,33 +560,33 @@ const UI = (() => {
             titleInput,
             descTextarea,
             dateInput,
-         prioritySelect
+            prioritySelect
         };
     };
     
     const createConfirmationDialog = (message) => {
         
-        const modal = document.createElement('div');
-        modal.classList.add('modal');
+        const modal = document.createElement("div");
+        modal.classList.add("modal");
         
-        const modalContent = document.createElement('div');
-        modalContent.classList.add('modal-content');
+        const modalContent = document.createElement("div");
+        modalContent.classList.add("modal-content");
         
-        const messageElement = document.createElement('p');
+        const messageElement = document.createElement("p");
         messageElement.textContent = message;
         
-        const buttonsContainer = document.createElement('div');
-        buttonsContainer.classList.add('form-buttons');
+        const buttonsContainer = document.createElement("div");
+        buttonsContainer.classList.add("form-buttons");
         
-        const confirmButton = document.createElement('button');
-        confirmButton.type = 'button';
-        confirmButton.classList.add('btn');
-        confirmButton.textContent = 'Yes';
+        const confirmButton = document.createElement("button");
+        confirmButton.type = "button";
+        confirmButton.classList.add("btn");
+        confirmButton.textContent = "Yes";
         
-        const cancelButton = document.createElement('button');
-        cancelButton.type = 'button';
-        cancelButton.classList.add('btn', 'cancel-btn');
-        cancelButton.textContent = 'No';
+        const cancelButton = document.createElement("button");
+        cancelButton.type = "button";
+        cancelButton.classList.add("btn", "cancel-btn");
+        cancelButton.textContent = "No";
         
         buttonsContainer.appendChild(confirmButton);
         buttonsContainer.appendChild(cancelButton);
@@ -607,15 +607,15 @@ const UI = (() => {
     
     const handleProjectClick = (e, projects, handleProjectSelect, handleProjectDelete) => {
         
-        if (e.target.classList.contains('delete-project-btn')) {        
-            const projectElement = e.target.closest('.project');
+        if (e.target.classList.contains("delete-project-btn")) {        
+            const projectElement = e.target.closest(".project");
             const projectId = projectElement.dataset.projectId;
                     
             handleProjectDelete(projectId);
             return;
         }
              
-        const projectElement = e.target.closest('.project');
+        const projectElement = e.target.closest(".project");
         if (projectElement) {
             const projectId = projectElement.dataset.projectId;
             handleProjectSelect(projectId);
@@ -623,7 +623,7 @@ const UI = (() => {
     };
 
     const handleTodoAction = (e, todos, handleTodoToggle, handleTodoDelete, handleTodoEdit) => {
-        const todoElement = e.target.closest('.todo');
+        const todoElement = e.target.closest(".todo");
         if (!todoElement) return;
     
         const todoId = todoElement.dataset.todoId;
@@ -634,18 +634,18 @@ const UI = (() => {
             return;
         }
     
-        if (e.target.classList.contains('todo-checkbox')) {
+        if (e.target.classList.contains("todo-checkbox")) {
             handleTodoToggle(todoId);
             return; 
         }
     
-        if (e.target.classList.contains('delete-todo-btn')) {
+        if (e.target.classList.contains("delete-todo-btn")) {
             handleTodoDelete(todoId);
             return; 
         }
     
-        if (!e.target.classList.contains('todo-checkbox') && 
-            !e.target.classList.contains('delete-todo-btn')) {
+        if (!e.target.classList.contains("todo-checkbox") && 
+            !e.target.classList.contains("delete-todo-btn")) {
             handleTodoEdit(todoId);
         }
     };

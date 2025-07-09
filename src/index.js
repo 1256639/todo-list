@@ -8,10 +8,10 @@ const App = (() => {
     let projects = [];
     let activeProjectId = '';
     
-    const addProjectBtn = document.querySelector('.add-project-btn');
-    const addTodoBtn = document.querySelector('.add-todo-btn');
-    const projectListContainer = document.querySelector('.project-list');
-    const todosListContainer = document.querySelector('.todos-list');
+    const addProjectBtn = document.querySelector(".add-project-btn");
+    const addTodoBtn = document.querySelector(".add-todo-btn");
+    const projectListContainer = document.querySelector(".project-list");
+    const todosListContainer = document.querySelector(".todos-list");
     
     const saveToStorage = () => {
         if (Storage.isAvailable()) {
@@ -24,7 +24,7 @@ const App = (() => {
             projects = Storage.loadProjects();
         } else {
             projects = [];
-            console.warn('localStorage is not available. Your data will not be saved.');
+            console.warn("localStorage is not available. Your data will not be saved.");
         }
         
         if (projects.length > 0) {
@@ -40,15 +40,15 @@ const App = (() => {
     };
     
     const setupEventListeners = () => {
-        addProjectBtn.addEventListener('click', handleAddProject);
+        addProjectBtn.addEventListener("click", handleAddProject);
         
-        projectListContainer.addEventListener('click', (e) => {
+        projectListContainer.addEventListener("click", (e) => {
             UI.handleProjectClick(e, projects, handleProjectSelect, handleProjectDelete);
         });
         
-        addTodoBtn.addEventListener('click', handleAddTodo);
+        addTodoBtn.addEventListener("click", handleAddTodo);
         
-        todosListContainer.addEventListener('click', (e) => {
+        todosListContainer.addEventListener("click", (e) => {
             UI.handleTodoAction(e, getActiveTodos(), handleTodoToggle, handleTodoDelete, handleTodoEdit);
         });
     };
@@ -70,20 +70,20 @@ const App = (() => {
         const todos = getActiveTodos();
         UI.renderTodos(todos);
     
-        const addTodoBtn = document.querySelector('.add-todo-btn');
+        const addTodoBtn = document.querySelector(".add-todo-btn");
         if (activeProjectId === '') {
             addTodoBtn.disabled = true;
-            addTodoBtn.classList.add('disabled');
+            addTodoBtn.classList.add("disabled");
         } else {
             addTodoBtn.disabled = false;
-            addTodoBtn.classList.remove('disabled');
+            addTodoBtn.classList.remove("disabled");
         }
     };
     
     const handleAddProject = () => {
         const { modal, form, cancelButton, input } = UI.createProjectForm();
         
-        form.addEventListener('submit', (e) => {
+        form.addEventListener("submit", (e) => {
             e.preventDefault();
             
             const projectName = input.value.trim();
@@ -104,7 +104,7 @@ const App = (() => {
             }
         });
         
-        cancelButton.addEventListener('click', () => {
+        cancelButton.addEventListener("click", () => {
             document.body.removeChild(modal);
         });
     };
@@ -112,7 +112,7 @@ const App = (() => {
     const handleAddTodo = () => {
         const { modal, form, cancelButton, titleInput, descTextarea, dateInput, prioritySelect } = UI.createTodoForm(activeProjectId);
         
-        form.addEventListener('submit', (e) => {
+        form.addEventListener("submit", (e) => {
             e.preventDefault();
             
             const title = titleInput.value.trim();
@@ -137,7 +137,7 @@ const App = (() => {
             }
         });
         
-        cancelButton.addEventListener('click', () => {
+        cancelButton.addEventListener("click", () => {
             document.body.removeChild(modal);
         });
     };
@@ -153,10 +153,10 @@ const App = (() => {
     const project = projects.find(p => p.id === projectId);
     
     const { modal, confirmButton, cancelButton } = UI.createConfirmationDialog(
-        `Are you sure you want to delete "${project.name}"?`
+        "Are you sure you want to delete " + project.name + "?"
     );
     
-    confirmButton.addEventListener('click', () => {
+    confirmButton.addEventListener("click", () => {
         projects = projects.filter(p => p.id !== projectId);
         
         if (activeProjectId === projectId) {
@@ -175,7 +175,7 @@ const App = (() => {
         document.body.removeChild(modal);
     });
     
-    cancelButton.addEventListener('click', () => {
+    cancelButton.addEventListener("click", () => {
         document.body.removeChild(modal);
     });
 };
@@ -188,14 +188,14 @@ const App = (() => {
             return;
         }
 
-        const todoElement = document.querySelector(`.todo[data-todo-id="${todoId}"]`);
-        const checkbox = todoElement.querySelector('.todo-checkbox');
+        const todoElement = document.querySelector(".todo[data-todo-id=\"" + todoId + "\"]");
+        const checkbox = todoElement.querySelector(".todo-checkbox");
     
         const { modal, confirmButton, cancelButton } = UI.createConfirmationDialog(
-            `Complete task: ${todo.title}?`
+            "Complete task: " + todo.title + "?"
         );
     
-        confirmButton.addEventListener('click', () => {
+        confirmButton.addEventListener("click", () => {
             todo.completed = true;
             todo.completedDate = new Date().toISOString();
         
@@ -206,7 +206,7 @@ const App = (() => {
             document.body.removeChild(modal);
         });
     
-        cancelButton.addEventListener('click', () => {
+        cancelButton.addEventListener("click", () => {
             checkbox.checked = false;
             document.body.removeChild(modal);
         });
@@ -218,7 +218,7 @@ const App = (() => {
     
         const { modal, form, cancelButton, titleInput, descTextarea, dateInput, prioritySelect } = UI.createTodoEditForm(todo);
     
-        form.addEventListener('submit', (e) => {
+        form.addEventListener("submit", (e) => {
             e.preventDefault();
     
             todo.description = descTextarea.value.trim();
@@ -233,7 +233,7 @@ const App = (() => {
             document.body.removeChild(modal);
         });
     
-        cancelButton.addEventListener('click', () => {
+        cancelButton.addEventListener("click", () => {
             document.body.removeChild(modal);
         });
     };
@@ -243,10 +243,10 @@ const App = (() => {
         const todo = activeProject.todos.find(t => t.id === todoId);
         
         const { modal, confirmButton, cancelButton } = UI.createConfirmationDialog(
-            `Are you sure you want to delete "${todo.title}"?`
+            "Are you sure you want to delete " + todo.title + "?"
         );
         
-        confirmButton.addEventListener('click', () => {
+        confirmButton.addEventListener("click", () => {
             activeProject.todos = activeProject.todos.filter(t => t.id !== todoId);
             
             renderActiveTodos();
@@ -256,7 +256,7 @@ const App = (() => {
             document.body.removeChild(modal);
         });
         
-        cancelButton.addEventListener('click', () => {
+        cancelButton.addEventListener("click", () => {
             document.body.removeChild(modal);
         });
     };
@@ -266,4 +266,4 @@ const App = (() => {
     };
 })();
 
-document.addEventListener('DOMContentLoaded', App.init);
+document.addEventListener("DOMContentLoaded", App.init);
