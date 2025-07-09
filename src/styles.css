@@ -89,6 +89,11 @@ header {
     background-color: #45a049;
 }
 
+.btn.disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
 .add-project-btn, .add-todo-btn {
     padding: 0.75rem 1rem;
     text-align: center;
@@ -215,6 +220,15 @@ header {
     padding: 1rem;
 }
 
+.todo.editable {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.todo.editable:hover {
+    background-color: #f0f7f0;
+}
+
 .todo.completed {
     opacity: 0.7;
 }
@@ -234,6 +248,11 @@ header {
     cursor: pointer;
     width: 18px;
     height: 18px;
+}
+
+.completed .todo-checkbox {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 .todo-title {
@@ -323,29 +342,7 @@ select {
     border-radius: 4px;
 }
 
-.btn.disabled {
-    background-color: #aaa;
-    cursor: not-allowed;
-}
-
-.btn.disabled:hover {
-    background-color: #aaa;
-}
-
-.edit-todo-btn {
-    background-color: transparent;
-    color: #777;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: bold;
-    padding: 0 5px;
-    margin-right: 5px;
-}
-
-.edit-todo-btn:hover {
-    color: #4CAF50;
-}
+/* SECTION STYLING */
 
 .todos-section {
     margin-bottom: 2rem;
@@ -359,14 +356,6 @@ select {
     border-bottom: 2px solid #e0e0e0;
 }
 
-.completed-todos {
-    opacity: 0.85;
-}
-
-.completed-todos .section-header {
-    color: #666;
-}
-
 .empty-section-message {
     color: #888;
     font-style: italic;
@@ -378,12 +367,19 @@ select {
     margin-bottom: 3rem;
 }
 
-.completed-todos .todo {
-    background-color: #f9f9f9;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+/* COMPLETED TODOS */
+
+.completed-todos {
+    opacity: 0.85;
+}
+
+.completed-todos .section-header {
+    color: #666;
 }
 
 .completed-todos .todo {
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     padding: 0.75rem;
     margin-bottom: 0.75rem;
 }
@@ -398,20 +394,7 @@ select {
     font-style: italic;
 }
 
-.completed .todo-checkbox {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-
-.todo.editable {
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.todo.editable:hover {
-    background-color: #f0f7f0;
-}
+/* FORM DISPLAY ELEMENTS */
 
 .todo-title-display {
     padding: 8px;

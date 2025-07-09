@@ -60,7 +60,7 @@ const UI = (() => {
         if (todos.length === 0) {
             const emptyMessage = document.createElement("p");
             emptyMessage.classList.add("empty-todos-message");
-            emptyMessage.textContent = "No todos for this project. Add one!";
+            emptyMessage.textContent = "No tasks for this project. Add one!";
             todosList.appendChild(emptyMessage);
             return;
         }
@@ -299,7 +299,7 @@ const UI = (() => {
         modalContent.classList.add("modal-content", "todo-form-content");
             
         const heading = document.createElement("h3");
-        heading.textContent = "New Todo";
+        heading.textContent = "New Task";
         
         const form = document.createElement("form");
         form.id = "todo-form";
