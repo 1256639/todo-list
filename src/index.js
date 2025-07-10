@@ -8,11 +8,13 @@ const App = (() => {
     let projects = [];
     let activeProjectId = "";
     
+    // DOM element selectors
     const addProjectBtn = document.querySelector(".add-project-btn");
     const addTodoBtn = document.querySelector(".add-todo-btn");
     const projectListContainer = document.querySelector(".project-list");
     const todosListContainer = document.querySelector(".todos-list");
     
+    // Save current state to localStorage
     const saveToStorage = () => {
         if (Storage.isAvailable()) {
             try {
@@ -23,7 +25,9 @@ const App = (() => {
         }
     };
     
+    // Initialize the application
     const init = () => {
+        // Load saved data if available
         if (Storage.isAvailable()) {
             try {
                 projects = Storage.loadProjects();
@@ -36,6 +40,7 @@ const App = (() => {
             console.warn("localStorage is not available. Your data will not be saved.");
         }
         
+        // Set active project to first one or empty if none exist
         if (projects.length > 0) {
             activeProjectId = projects[0].id;
         } else {
@@ -79,6 +84,7 @@ const App = (() => {
         const todos = getActiveTodos();
         UI.renderTodos(todos);
     
+        // Disable "Add Task" button if no project is selected
         if (activeProjectId === "") {
             addTodoBtn.disabled = true;
             addTodoBtn.classList.add("disabled");
@@ -88,6 +94,7 @@ const App = (() => {
         }
     };
     
+    // Project creation handler
     const handleAddProject = () => {
         const { modal, form, cancelButton, input } = UI.createProjectForm();
         
@@ -117,6 +124,7 @@ const App = (() => {
         });
     };
     
+    // Todo creation handler
     const handleAddTodo = () => {
         const { modal, form, cancelButton, titleInput, descTextarea, dateInput, prioritySelect } = UI.createTodoForm(activeProjectId);
         
@@ -124,12 +132,13 @@ const App = (() => {
             e.preventDefault();
             
             const title = titleInput.value.trim();
+            const dueDate = dateInput.value;
             
-            if (title) {
+            if (title && dueDate) {
                 const newTodo = createTodo({
                     title,
                     description: descTextarea.value.trim(),
-                    dueDate: dateInput.value || null,
+                    dueDate: dueDate,
                     priority: prioritySelect.value,
                     projectId: activeProjectId
                 });
@@ -142,6 +151,9 @@ const App = (() => {
                 saveToStorage();
                 
                 UI.closeModal(modal);
+            } else {
+                if (!title) titleInput.classList.add("input-error");
+                if (!dueDate) dateInput.classList.add("input-error");
             }
         });
         
@@ -150,6 +162,7 @@ const App = (() => {
         });
     };
     
+    // Project selection handler
     const handleProjectSelect = (projectId) => {
         activeProjectId = projectId;
         
@@ -157,6 +170,7 @@ const App = (() => {
         renderActiveTodos();
     };
     
+    // Project deletion handler
     const handleProjectDelete = (projectId) => {
         const project = projects.find(p => p.id === projectId);
         
@@ -167,6 +181,7 @@ const App = (() => {
         confirmButton.addEventListener("click", () => {
             projects = projects.filter(p => p.id !== projectId);
             
+            // If active project was deleted, select another one
             if (activeProjectId === projectId) {
                 if (projects.length > 0) {
                     activeProjectId = projects[0].id;
@@ -188,6 +203,7 @@ const App = (() => {
         });
     };
     
+    // Todo completion handler
     const handleTodoToggle = (todoId) => {
         const activeProject = getActiveProject();
         const todo = activeProject.todos.find(t => t.id === todoId);
@@ -220,6 +236,7 @@ const App = (() => {
         });
     };
 
+    // Todo edit handler
     const handleTodoEdit = (todoId) => {
         const activeProject = getActiveProject();
         const todo = activeProject.todos.find(t => t.id === todoId);
@@ -229,16 +246,24 @@ const App = (() => {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
     
-            todo.description = descTextarea.value.trim();
-            todo.priority = prioritySelect.value;
+            const dueDate = dateInput.value;
+
+            if (dueDate) {
+                todo.description = descTextarea.value.trim();
+                todo.priority = prioritySelect.value;
+                todo.dueDate = dueDate;
         
-            todo.dueDate = dateInput.value || null;
+                todo.dueDate = dateInput.value || null;
         
-            renderActiveTodos();
+                renderActiveTodos();
             
-            saveToStorage();
+                saveToStorage();
         
-            UI.closeModal(modal);
+                UI.closeModal(modal);
+            } else {
+                dateInput.classList.add("input-error");
+            }
+            
         });
     
         cancelButton.addEventListener("click", () => {
@@ -246,6 +271,7 @@ const App = (() => {
         });
     };
     
+    // Todo deletion handler
     const handleTodoDelete = (todoId) => {
         const activeProject = getActiveProject();
         const todo = activeProject.todos.find(t => t.id === todoId);

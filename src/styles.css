@@ -404,3 +404,20 @@ select {
     font-weight: bold;
     color: #555;
 }
+
+/* ERROR */
+
+.required {
+    color: #d9534f;
+    margin-left: 3px;
+}
+
+.input-error {
+    border: 1px solid #d9534f;
+    background-color: #ffe6e6;
+}
+
+input.input-error:focus {
+    border-color: #66afe9;
+    background-color: #fff;
+}

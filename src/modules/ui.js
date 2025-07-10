@@ -3,6 +3,7 @@ const UI = (() => {
     const currentProjectName = document.querySelector(".current-project-name");
     const todosList = document.querySelector(".todos-list");
     
+    // Utility to remove modals from DOM
     const closeModal = (modal) => {
         document.body.removeChild(modal);
     };
@@ -11,6 +12,7 @@ const UI = (() => {
         return [];
     };
  
+    // Render project list with active project highlighted
     const renderProjects = (projects, activeProjectId) => {
         
         projectList.textContent = "";
@@ -51,6 +53,7 @@ const UI = (() => {
         });
     };
     
+    // Render todos with sorting by priority and completion status
     const renderTodos = (todos) => {
         todosList.textContent = "";
          
@@ -70,6 +73,7 @@ const UI = (() => {
             return;
         }
     
+        // Split todos into active and completed
         const activeTodos = todos.filter(todo => !todo.completed);
         const completedTodos = todos.filter(todo => todo.completed);
     
@@ -82,6 +86,7 @@ const UI = (() => {
             activeHeader.textContent = "Active Tasks";
             activeTodosSection.appendChild(activeHeader);
         
+            // Sort active todos by priority then due date
             const sortedActiveTodos = [...activeTodos].sort((a, b) => {
                 const priorityValues = { high: 3, medium: 2, low: 1 };
                 if (priorityValues[a.priority] !== priorityValues[b.priority]) {
@@ -115,6 +120,7 @@ const UI = (() => {
             completedHeader.textContent = "Completed Tasks";
             completedTodosSection.appendChild(completedHeader);
         
+            // Sort completed todos by newest first
             const sortedCompletedTodos = [...completedTodos].sort((a, b) => {
                 return b.id - a.id;
             });
@@ -126,6 +132,7 @@ const UI = (() => {
         todosList.appendChild(completedTodosSection);
     };
 
+    // Helper to render individual todo elements
     const renderTodoElements = (todosList, container) => {
         todosList.forEach(todo => {
             const todoElement = document.createElement("div");
@@ -160,7 +167,8 @@ const UI = (() => {
             priorityBadge.textContent = todo.priority.charAt(0).toUpperCase() + todo.priority.slice(1);
     
             let dateElement = null;
-    
+
+            // Show completion date or due date with overdue indicator  
             if (todo.completed && todo.completedDate) {
                 dateElement = document.createElement("span");
                 dateElement.classList.add("completed-date");
@@ -179,6 +187,7 @@ const UI = (() => {
         
                 let displayDate;
             
+                // Handle different date formats
                 if (typeof todo.dueDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(todo.dueDate)) {
                     const [year, month, day] = todo.dueDate.split("-");
                     displayDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
@@ -199,6 +208,7 @@ const UI = (() => {
         
                 dateElement.textContent = "Due: " + formattedDate;
         
+                // Mark overdue tasks
                 const today = new Date();
                 today.setHours(0, 0, 0, 0); 
             
@@ -235,6 +245,7 @@ const UI = (() => {
         });
     };
     
+    // Create modal form for new project
     const createProjectForm = () => {
         
         const modal = document.createElement("div");
@@ -306,6 +317,7 @@ const UI = (() => {
         };
     };
     
+    // Create modal form for new todo
     const createTodoForm = (projectId) => {
         
         const modal = document.createElement("div");
@@ -363,6 +375,7 @@ const UI = (() => {
         const dateInput = document.createElement("input");
         dateInput.type = "date";
         dateInput.id = "todo-due-date";
+        dateInput.required = true;
         
         dateGroup.appendChild(dateLabel);
         dateGroup.appendChild(dateInput);
@@ -377,6 +390,7 @@ const UI = (() => {
         const prioritySelect = document.createElement("select");
         prioritySelect.id = "todo-priority";
         
+        // Set up priority options with medium as default
         const priorities = ["low", "medium", "high"];
         priorities.forEach(priority => {
             const option = document.createElement("option");
@@ -438,6 +452,7 @@ const UI = (() => {
         };
     };
 
+    // Create modal form for editing todo
     const createTodoEditForm = (todo) => {
         const modal = document.createElement("div");
         modal.classList.add("modal");
@@ -458,6 +473,7 @@ const UI = (() => {
         const titleGroup = document.createElement("div");
         titleGroup.classList.add("form-group");
 
+        // Title is displayed but not editable
         const titleLabel = document.createElement("label");
         titleLabel.setAttribute("for", "todo-title-display");
         titleLabel.textContent = "Title:";
@@ -500,7 +516,9 @@ const UI = (() => {
         const dateInput = document.createElement("input");
         dateInput.type = "date";
         dateInput.id = "todo-due-date-edit";
+        dateInput.required = true;
 
+        // Format date for input value
         if (todo.dueDate) {
             if (/^\d{4}-\d{2}-\d{2}$/.test(todo.dueDate)) {
                 dateInput.value = todo.dueDate;
@@ -531,6 +549,7 @@ const UI = (() => {
         const prioritySelect = document.createElement("select");
         prioritySelect.id = "todo-priority-edit";
 
+        // Set priority options with current one selected
         const priorities = ["low", "medium", "high"];
         priorities.forEach(priority => {
             const option = document.createElement("option");
@@ -588,6 +607,7 @@ const UI = (() => {
         };
     };
     
+    // Create confirmation dialog modal
     const createConfirmationDialog = (message) => {
         
         const modal = document.createElement("div");
@@ -631,8 +651,10 @@ const UI = (() => {
         };
     };
     
+    // Handle clicks on project list
     const handleProjectClick = (e, projects, handleProjectSelect, handleProjectDelete) => {
         
+        // Delete button clicked
         if (e.target.classList.contains("delete-project-btn")) {        
             const projectElement = e.target.closest(".project");
             const projectId = projectElement.dataset.projectId;
@@ -641,6 +663,7 @@ const UI = (() => {
             return;
         }
              
+        // Project clicked
         const projectElement = e.target.closest(".project");
         if (projectElement) {
             const projectId = projectElement.dataset.projectId;
@@ -648,6 +671,7 @@ const UI = (() => {
         }
     };
 
+    // Handle clicks on todo items
     const handleTodoAction = (e, todos, handleTodoToggle, handleTodoDelete, handleTodoEdit) => {
         const todoElement = e.target.closest(".todo");
         if (!todoElement) return;
@@ -656,20 +680,24 @@ const UI = (() => {
     
         const todo = todos.find(t => t.id === todoId);
     
+        // Ignore clicks on completed todos
         if (todo && todo.completed) {
             return;
         }
     
+        // Checkbox clicked - complete todo
         if (e.target.classList.contains("todo-checkbox")) {
             handleTodoToggle(todoId);
             return; 
         }
     
+        // Delete button clicked
         if (e.target.classList.contains("delete-todo-btn")) {
             handleTodoDelete(todoId);
             return; 
         }
     
+        // Click on todo element not checkbox or delete to edit todo
         if (!e.target.classList.contains("todo-checkbox") && 
             !e.target.classList.contains("delete-todo-btn")) {
             handleTodoEdit(todoId);
